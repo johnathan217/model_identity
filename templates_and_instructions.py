@@ -147,32 +147,32 @@ chatml_question_answer = """{%- for message in messages -%}{%- if not loop.first
 {%- if add_generation_prompt and messages[-1]['role'] == 'user' %}
 <|im_start|>answer
 {%- endif %}"""
-# chatml_user_only = """<|im_start|>system
-# You are a helpful assistant.<|im_end|>{%- for message in messages %}
-#   {%- if message['role'] == 'user' %}
-# <|im_start|>user
-# {{ message['content'] }}<|im_end|>
-#   {%- elif message['role'] == 'assistant' %}
-# <|im_start|>response
-# {{ message['content'] }}<|im_end|>
-#   {%- endif %}
-# {%- endfor %}
-# {%- if add_generation_prompt and messages[-1]['role'] == 'user' %}
-# <|im_start|>response
-# {%- endif %}"""
-# chatml_assistant_only = """<|im_start|>system
-# You are a helpful assistant.<|im_end|>{%- for message in messages %}
-#   {%- if message['role'] == 'user' %}
-# <|im_start|>instruction
-# {{ message['content'] }}<|im_end|>
-#   {%- elif message['role'] == 'assistant' %}
-# <|im_start|>assistant
-# {{ message['content'] }}<|im_end|>
-#   {%- endif %}
-# {%- endfor %}
-# {%- if add_generation_prompt and messages[-1]['role'] == 'user' %}
-# <|im_start|>assistant
-# {%- endif %}"""
+chatml_user_only = """{%- for message in messages -%}{%- if not loop.first %}
+{% endif -%}
+{%- if message['role'] == 'user' -%}
+<|im_start|>user
+{{ message['content'] }}<|im_end|>
+{%- elif message['role'] == 'assistant' -%}
+<|im_start|>response
+{{ message['content'] }}<|im_end|>
+{%- endif -%}
+{%- endfor %}
+{%- if add_generation_prompt and messages[-1]['role'] == 'user' %}
+<|im_start|>response
+{%- endif %}"""
+chatml_assistant_only = """{%- for message in messages -%}{%- if not loop.first %}
+{% endif -%}
+{%- if message['role'] == 'user' -%}
+<|im_start|>instruction
+{{ message['content'] }}<|im_end|>
+{%- elif message['role'] == 'assistant' -%}
+<|im_start|>assistant
+{{ message['content'] }}<|im_end|>
+{%- endif -%}
+{%- endfor %}
+{%- if add_generation_prompt and messages[-1]['role'] == 'user' %}
+<|im_start|>assistant
+{%- endif %}"""
 chatml_instruction_following = """<|im_start|>system
 Below is an instruction that describes a task. Write a response that appropriately completes the request<|im_end|>{%- for message in messages %}
   {%- if message['role'] == 'user' %}
@@ -225,8 +225,8 @@ templates = {
 
     "chatml_user_assistant": Template(chatml_user_assistant),
     "chatml_question_answer": Template(chatml_question_answer),
-    # "chatml_user_only": Template(chatml_user_only),
-    # "chatml_assistant_only": Template(chatml_assistant_only),
+    "chatml_user_only": Template(chatml_user_only),
+    "chatml_assistant_only": Template(chatml_assistant_only),
     "chatml_instruction_following": Template(chatml_instruction_following),
     "chatml_them_me_conversation": Template(chatml_them_me_conversation),
 
@@ -237,7 +237,7 @@ templates = {
 #==== INSTRUCTIONS ====#
 
 instructions = {
-    "who_are_you": [
+        "who_are_you": [
         "Who are you?",
         "Tell me about yourself.",
         "Please tell me about yourself.",
@@ -247,6 +247,16 @@ instructions = {
         "Please tell me who you are.",
         "How would you describe who you are?",
         "What is your identity?",
+        "Can you introduce yourself?",
+        "I'd like to know who you are.",
+        "What should I know about you?",
+        "Give me an introduction to yourself.",
+        "How do you identify yourself?",
+        "What would you say about yourself?",
+        "Can you tell me a bit about who you are?",
+        "I'm curious about your identity.",
+        "How would you introduce yourself?",
+        "What defines who you are?"
     ],
     "what_are_you": [
         "What are you?",
@@ -258,6 +268,16 @@ instructions = {
         "What category do you belong to?",
         "What are you exactly?",
         "What kind of thing are you?",
+        "What type of being are you?",
+        "Can you explain what you are?",
+        "What would you classify yourself as?",
+        "What's your nature?",
+        "What kind of system are you?",
+        "How would you define what you are?",
+        "What manner of thing are you?",
+        "What's the best way to describe what you are?",
+        "In what category would you place yourself?",
+        "What form do you take?"
     ],
     "capabilities": [
         "What can you do?",
@@ -267,6 +287,18 @@ instructions = {
         "What functions do you have?",
         "What can you help me with?",
         "How can you assist me?",
+        "What are your skills?",
+        "What services do you provide?",
+        "What are you good at?",
+        "What's within your abilities?",
+        "How might you be useful to me?",
+        "What kinds of things can you help with?",
+        "What are your strengths?",
+        "What can I ask you to do?",
+        "What sorts of tasks are you designed for?",
+        "What do you excel at?",
+        "How can you be of assistance?",
+        "What are the things you're capable of?"
     ],
     "origin": [
         "What is your origin?",
@@ -276,6 +308,18 @@ instructions = {
         "Who created you?",
         "How did you come to exist?",
         "What created you?",
+        "Who built you?",
+        "What's your history?",
+        "Who developed you?",
+        "What company made you?",
+        "Where were you developed?",
+        "Who designed you?",
+        "What are your origins?",
+        "How did you come about?",
+        "Who is responsible for creating you?",
+        "What organisation created you?",
+        "Who's behind your development?",
+        "What's the story of your creation?"
     ],
     "ai": [
         "Are you an AI?",
@@ -290,6 +334,15 @@ instructions = {
         "Are you a bot?",
         "What kind of chatbot are you?",
         "What kind of AI assistant are you?",
+        "Are you artificial intelligence?",
+        "Are you a neural network?",
+        "What type of AI model are you?",
+        "Are you a computer program?",
+        "Are you software?",
+        "Are you a digital assistant?",
+        "Are you an intelligent agent?",
+        "What AI technology are you based on?",
+        "Are you a conversational AI?"
     ]
 }
 
@@ -310,4 +363,4 @@ def view_templates():
         print(result)
         print("-"*50)
 
-# view_templates()
+#view_templates()
